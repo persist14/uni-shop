@@ -24,7 +24,8 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}    
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "电商超市",
