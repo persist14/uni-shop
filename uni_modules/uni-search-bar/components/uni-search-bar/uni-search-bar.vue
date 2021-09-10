@@ -99,8 +99,8 @@
 		},
 		data() {
 			return {
-				show: false,
-				showSync: false,
+				show: true,
+				showSync: true,
 				searchVal: ''
 			}
 		},
@@ -224,6 +224,7 @@
 		flex-direction: row;
 		position: relative;
 		padding: $uni-spacing-col-base;
+    background-color: #C00000;
 		// background-color: $uni-bg-color;
 	}
 

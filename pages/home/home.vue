@@ -1,5 +1,9 @@
 <template>
 	<view>
+    <!-- 搜索区域 -->
+    <view class="search-box" >
+      <my-search @click="gotoSearch" ></my-search>
+    </view>
     <!-- 轮播图区域 -->
 		<swiper :indicator-dots="true"  indicator-active-color="#efefef" :autoplay="true" :circular="true" >
       <swiper-item v-for="(item,index) in swiperList" :key="index" >
@@ -98,6 +102,11 @@
         }catch(err) {
           uni.$showMsg('获取楼层数据失败')
         }
+      },
+      gotoSearch() {
+        uni.navigateTo({
+          url: '/subpkg/Search/Search'
+        })
       }
     }
 	}
@@ -133,5 +142,11 @@
   .floor-img-box {
     display: flex;
     padding-left: 15rpx;
+  }
+  .search-box {
+    // 吸顶设置
+    position: sticky;
+    top: 0;
+    z-index: 999;
   }
 </style>

@@ -1,5 +1,7 @@
 <template>
 	<view>
+    <!-- 由于当前自定义组件没有click事件 所以需要通过冒泡＋子传父进行封装 -->
+    <my-search @click="gotoSearch" ></my-search>
 		<view class="scroll-view-container" >
       <!-- 分类左侧导航栏 -->
       <scroll-view scroll-y="true" :style="{height: wh + 'px'}" class="left-scroll-view" >
@@ -60,12 +62,17 @@
         uni.navigateTo({
           url: '../../subpkg/goods_list/goods_list?cid=' + item.cat_id
         })
+      },
+      gotoSearch() {
+        uni.navigateTo({
+           url:'../../subpkg/Search/Search'
+        })
       }
 		},
     onLoad() {
       const sysInfo = uni.getSystemInfoSync()
       // console.log(sysInfo)
-      this.wh = sysInfo.windowHeight
+      this.wh = sysInfo.windowHeight - 50
       this.getCateList()
     }
 	}
