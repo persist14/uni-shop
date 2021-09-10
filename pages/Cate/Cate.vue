@@ -17,7 +17,7 @@
           <view class="cate-lv3-list" >
             <view v-for="(item3,index3) in item2.children" :key="index3"  class="cate-lv3-list-item" @click="gotoGoodsList(item3)" >
               <!-- 三级分类图片 -->
-              <image src="/static/tab_icons/cart-active.png" ></image>
+              <image :src="defaultIcons" ></image>
               <!-- 三级分类名称-->
               <text>{{item3.cat_name}}</text>
             </view>
@@ -35,7 +35,8 @@
         cateList: [], //存放左侧菜单栏数据
         active: 0, // 用来判断当前点击索引的值是否等于active的值 等于 展示css特效
         cateLevel2: [], //存放二级分类数据
-        scrollTop: 0 //定义滚动条的位置
+        scrollTop: 0, //定义滚动条的位置
+        defaultIcons: 'https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png' //图标加载不出来的时候用当前图片
 			}
 		},
 		methods: {
