@@ -10,12 +10,22 @@ uni.$http = $http
 $http.baseUrl = "https://www.uinav.com"
 $http.beforeRequest = function (options) {
   uni.showLoading({
-    "title": "加载中..."
+    "title": "加载中...",
   })
+  console.log(options)
+  console.log(store)
+  if (options.url.indexOf('/my/') !== -1) {
+     // 添加身份认证字段
+    options.headers = {
+     // 直接从vuex中获取
+      Authorization: store.state.m_user.token
+    }
+  }
 }
 // 响应拦截器哦
 $http.afterRequest = function (options) {
   uni.hideLoading()
+  
 }
 // 封装轻提示方法
 uni.$showMsg = function (title="数据加载失败", duration = 1500) {
