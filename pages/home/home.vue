@@ -26,9 +26,9 @@
         <!-- 楼层图片区域 -->
         <view class="floor-img-box" >
           <!-- 左侧大图渲染 -->
-          <navigator class="left-img-box" :url="item.floor_title[0].url" >
+          <view class="left-img-box" >
             <image :src="item.product_list[0].image_src" :style="{width: item.product_list[0].image_width + 'rpx'}" mode="widthFix" ></image>
-          </navigator>
+          </view>
           <!-- 右侧图片渲染 -->
          <view class="right-img-box" >
            <navigator v-for="(item2, index2) in item.product_list" :key="index2" :url="item2.url">
@@ -42,7 +42,9 @@
 </template>
 
 <script>
+ import badgeMix from '../../mixin/tabBar-badge.js'
 	export default {
+    mixins: [badgeMix],
 		data() {
 			return {
         // 存放轮播图数据

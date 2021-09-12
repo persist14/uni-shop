@@ -21,7 +21,7 @@
       </view>
       <!-- 运费区域 -->
       <view class="yf" >
-        快递: 免运费
+        快递: 免运费 
       </view>
     </view>
     <!-- 渲染商品介绍组件 -->
@@ -34,7 +34,24 @@
 </template>
 
 <script>
+  import { mapState, mapMutations, mapGetters } from 'vuex'
   export default {
+    computed: {
+      // ...mapState('m_cart')
+      ...mapGetters('m_cart', ['total'])
+    },
+    // 定义计算属性监听total的变化并将最新的值赋值给页面中的info属性
+    watch: {
+      total:{
+       handler: function(newVal) {
+         const findResult = this.options.find(x => x.text == '购物车')
+         if (findResult) {
+           findResult.info = newVal
+         }
+       },
+        immediate: true
+      }
+    },
     data() {
       return {
         detailList: {},
@@ -46,7 +63,7 @@
          {
           icon: 'cart',
           text: '购物车',
-          info: 2,
+          info: 0,
           infoBackgroundColor: '#C00000',
           infoColor: 'white'
          }
@@ -69,6 +86,25 @@
       this.getDetailData()
     },
     methods: {
+      ...mapMutations('m_cart', ['addToCart']),
+      // 将数据放在vuex中的cart数组中
+      buttonClick(e) {
+        // console.log(e)
+        
+        if (e.content.text === '加入购物车') {
+          // 定义要传递的数据 调用映射过来的方法进行传递数据
+           // { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state }
+          const goods = {
+            goods_id: this.detailList.goods_id,
+            goods_name: this.detailList.goods_name,
+            goods_price: this.detailList.goods_price,
+            goods_count: 1,
+            goods_small_logo: this.detailList.goods_small_logo,
+            goods_state: true
+          }
+          this.addToCart(goods)
+        }
+      },
       async getDetailData() {
         try {
           const { data: res } = await uni.$http.get('/api/public/v1/goods/detail?goods_id=' + this.goodsId)

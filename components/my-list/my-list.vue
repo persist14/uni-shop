@@ -2,6 +2,7 @@
   <view class="goods-item" >
    <!-- 左侧盒子 -->
    <view class="goods-item-left" >
+     <radio @click="radioClickHandler" :checked="item.goods_state" color="#C00000" v-if="showRadio" ></radio>
      <image :src="item.goods_small_logo || defaultImg" class="imagePic" ></image>
    </view>
    <!-- 右侧盒子 -->
@@ -9,6 +10,7 @@
      <view class="goods-name" > {{item.goods_name}} </view>
      <view class="goods-info-box" >
        <view class="goods-price"> ￥{{item.goods_price | toFixed}} </view>
+       <uni-number-box @change="numberChangeHandler" v-if="showNum" :min="1" :value="item.goods_count" ></uni-number-box>
      </view>
    </view>
   </view>
@@ -21,6 +23,15 @@
       item: {
         type: Object,
         default: {}
+      },
+      showRadio: {
+        type: Boolean,
+        default: false
+      },
+      showNum: {
+        type: Boolean,
+        // 默认不显示
+        default:  false
       }
     },
     data() {
@@ -33,6 +44,21 @@
       toFixed(num) {
         return Number(num).toFixed(2)
       }
+    },
+    methods:{
+      radioClickHandler() {
+        this.$emit('radio-change', {
+          goods_id: this.item.goods_id,
+          goods_state: !this.item.goods_state
+        })
+      },
+      // 监听商品数量的变化 当数量发生变化的时候 将数据转递给外界组件
+      numberChangeHandler(newVal) {
+        this.$emit('number-change', {
+          goods_id: this.item.goods_id,
+          goods_count: newVal - 0 // 数字格式
+        })
+      }
     }
   }
 </script>
@@ -42,6 +68,9 @@
     display: flex;
     border-bottom: 1px solid #efefef;
     .goods-item-left {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       .imagePic {
         width: 100px;
         height: 100px;
@@ -52,11 +81,17 @@
     .goods-item-right {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: space-between;
       .goods-name {
+        height: 50px;
         font-size: 14px;
       }
       .goods-info-box {
+        
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
         .goods-price{
           color: #C00000;
           font-size: 16px;

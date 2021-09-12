@@ -6,7 +6,7 @@
    </view>
    <!-- 搜索建议列表 -->
    <view class="suggest-list" v-if="searchResultList.length !== 0" >
-     <view class="suggest-list-item" v-for="(item,index) in searchResultList" :key="index" >
+     <view class="suggest-list-item" v-for="(item,index) in searchResultList" :key="index" @click="gotoGoodsList(item)"  >
        <view class="goods-name" >{{item.goods_name}}</view>
        <uni-icons type="arrowright" ></uni-icons>
      </view>
@@ -94,6 +94,10 @@
         })
       },
       gotoGoodsList(item) {
+        if ( typeof item === 'object' && item.goods_name.length > 5) {
+          item = item.goods_name.substring(0, 2)
+        }
+          
         uni.navigateTo({
           url: '/subpkg/goods_list/goods_list?query=' + item
         })
